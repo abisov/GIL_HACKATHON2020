@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class TowerController : MonoBehaviour
 {
-    public GameObject TurretPrefab;
-
 
     public float MaxHealth;
     public float CurrentHealth;
@@ -18,20 +16,21 @@ public class TowerController : MonoBehaviour
     public float TotalCost = 10f;
 
     public float sellCoef = 0.6f;
-    public float repairCoef = 0.4f; 
+    public float repairCoef = 0.4f;
 
-    PlayerController player;
+    public GameObject range;
+    PlayerController player= new PlayerController();
 
-    RandomGenerator generator;   
+    RandomGenerator generator=new RandomGenerator();   
     void Start()
     {
-
+        range.GetComponent<CircleCollider2D>().radius = this.Range/10;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("space"))
+        if (Input.GetKeyDown("space"))
         {
             Upgrade();
         }
@@ -48,6 +47,7 @@ public class TowerController : MonoBehaviour
         this.MaxHealth += UpdateStats[0];
         this.Damage += UpdateStats[1];
         this.Range += UpdateStats[2];
+        range.GetComponent<CircleCollider2D>().radius = this.Range/10;
         var avatageUpgrade = (UpdateStats[0] + UpdateStats[1] + UpdateStats[2]) / 3;
         NextUpgradeCost += avatageUpgrade*10;
         var logUpgrade = $"{Damage} {Range } ";
