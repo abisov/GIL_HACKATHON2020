@@ -5,20 +5,31 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject player;
+    private Vector3 NextPosition;
+
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
-    {
-        Move();
+    {       
+        if (Input.GetMouseButton(1))
+        {
+            this.NextPosition= Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+            this.Move();
     }
-
+ 
     private void Move()
     {
-        throw new NotImplementedException();
+        
+           
+            Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.y);
+            player.transform.position = Vector2.MoveTowards(playerPosition, this.NextPosition, Time.deltaTime * 10);
+       
+        
     }
 }

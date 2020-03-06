@@ -7,10 +7,11 @@ using UnityEngine;
 
 public class TowerController : MonoBehaviour
 {
-    public GameObject TurretPrefab { get; private set; }
+    public GameObject TurretPrefab;
 
 
-    public float Health ;
+    public float MaxHealth;
+    public float CurrentHealth;
     public float Damage;
     public float Range;
     public float NextUpgradeCost = 100f;
@@ -20,7 +21,8 @@ public class TowerController : MonoBehaviour
     public float repairCoef = 0.4f; 
 
     PlayerController player;
-   
+
+    RandomGenerator generator;   
     void Start()
     {
 
@@ -42,10 +44,12 @@ public class TowerController : MonoBehaviour
 
     private void Upgrade()
     {
-        
-        this.Damage +=this.Damage*;
-        this.Range += 10;
-        NextUpgradeCost += 100;
+        var UpdateStats = generator.RandomTurretStatsOnUpdate(player.badLuck);
+        this.MaxHealth += UpdateStats[0];
+        this.Damage += UpdateStats[1];
+        this.Range += UpdateStats[2];
+        var avatageUpgrade = (UpdateStats[0] + UpdateStats[1] + UpdateStats[2]) / 3;
+        NextUpgradeCost += avatageUpgrade*10;
         var logUpgrade = $"{Damage} {Range } ";
         Debug.Log(logUpgrade);
     }
@@ -57,6 +61,6 @@ public class TowerController : MonoBehaviour
 
     private void Repair()
     {
-        this.player.SubtracGold(repairCoef * TotalCost - 10 * Health);
+        this.player.SubtracGold(repairCoef * TotalCost - 10 * CurrentHealth);
     }
 }

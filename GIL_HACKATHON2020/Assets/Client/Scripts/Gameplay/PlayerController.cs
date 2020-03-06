@@ -7,9 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     public float money { get; private set; }
 
-    public float badLuck { get; private set; }
+    public int badLuck { get; private set; }
 
-    public float kills { get; private set; }
+    public int kills { get; private set; }
 
     // Start is called before the first frame update
     void Start()
